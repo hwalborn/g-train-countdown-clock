@@ -33,10 +33,10 @@ class CountdownList
         .map do |stop|
           # get the arrival time from the gtfs data
           arrival_time = stop[:arrival][:time]
-          # convert the arrival time from POSIX time and then find the
-          # difference between the current time and the time of arrival,
-          # so we know how many minutes away the train is
-          countdown_time = (Time.at(arrival_time) - Time.now) / 60
+          # convert current time to POSIX and then subtract it from
+          # the arrival time so we know how many seconds until the
+          # arrival of the train. Then divide by 60 to get minutes
+          countdown_time = (arrival_time - Time.now.to_f) / 60
 
           # we don't care about times that have passed or
           # times that are more than 15 minutes away
