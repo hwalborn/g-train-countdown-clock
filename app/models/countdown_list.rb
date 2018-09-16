@@ -1,10 +1,8 @@
 class CountdownList
   attr_accessor :upcoming_departures,
-                :feed_list,
-                :departure_list_north,
-                :departure_list_south
+                :feed_list
   def initialize
-    # grab our data from gtfs
+    # grab our data from gtfs, feed_id = 31 is the G train
     data = Net::HTTP
            .get(URI
            .parse("http://datamine.mta.info/mta_esi.php?key=#{ENV["api_key"]}&feed_id=31"))
@@ -40,7 +38,7 @@ class CountdownList
 
           # we don't care about times that have passed or
           # times that are more than 15 minutes away
-          if(countdown_time > 0 && countdown_time <= 16)
+          if(countdown_time > 0 && countdown_time <= 45)
             # insert into sorted array depending on which direction
             # this train is traveling
             if stop[:stop_id].include? 'N'
@@ -52,6 +50,10 @@ class CountdownList
         end
       end
     end
+  end
+
+  def get_seconds_remaining time
+    time.modulo(1) * 60
   end
 
   def insert_at_index countdown_time, is_north_bound
