@@ -38,7 +38,7 @@ class CountdownList
 
           # we don't care about times that have passed or
           # times that are more than 15 minutes away
-          if(countdown_time > 0 && countdown_time <= 45)
+          if(countdown_time > 0 && countdown_time <= 60)
             # insert into sorted array depending on which direction
             # this train is traveling
             if stop[:stop_id].include? 'N'
